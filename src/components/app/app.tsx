@@ -1,23 +1,24 @@
 import { Route, BrowserRouter, Routes } from 'react-router-dom';
-import Main from '../../pages/main/main.tsx';
-import { AppRoute, AuthorizationStatus } from '../../const.ts';
-import Login from '../../pages/login/login.tsx';
-import Favorites from '../../pages/favorites/favorites.tsx';
-import Offer from '../../pages/offer/offer.tsx';
-import NotFoundScreen from '../../pages/not-found-screen/not-found-screen.tsx';
-import PrivateRoute from '../private-route/private-route.tsx';
+import Main from '../../pages/main/main';
+import { AppRoute, AuthorizationStatus } from '../../const';
+import Login from '../../pages/login/login';
+import Favorites from '../../pages/favorites/favorites';
+import Offer from '../../pages/offer/offer';
+import NotFoundScreen from '../../pages/not-found-screen/not-found-screen';
+import PrivateRoute from '../private-route/private-route';
+import { OfferType } from '../../mocks/offers.ts';
 
 type AppProps = {
-  cardCount: number;
+  offers: OfferType[];
 }
 
-function App({cardCount}: AppProps): JSX.Element {
+function App({offers}: AppProps): JSX.Element {
   return (
     <BrowserRouter>
       <Routes>
         <Route
           path={AppRoute.Main}
-          element={<Main cardCount={cardCount}/>}
+          element={<Main offers={offers}/>}
         />
         <Route
           path={AppRoute.Login}
@@ -27,9 +28,9 @@ function App({cardCount}: AppProps): JSX.Element {
           path={AppRoute.Favorites}
           element={
             <PrivateRoute
-              authorizationStatus={AuthorizationStatus.NoAuth}
+              authorizationStatus={AuthorizationStatus.Auth}
             >
-              <Favorites/>
+              <Favorites offers={offers}/>
             </PrivateRoute>
           }
         />
